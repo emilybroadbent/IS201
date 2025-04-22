@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>London Trivia Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 40px;
+        }
+        .question-box {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #005fa3;
+        }
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>London Trivia Game</h1>
+    <div class="question-box">
+        <p id="question">Loading question...</p>
+        <div id="answers"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "What is the name of the river that flows through London?",
+                options: ["Thames", "Seine", "Danube", "Clyde"],
+                answer: "Thames"
+            },
+            {
+                question: "Which famous London landmark has a giant clock?",
+                options: ["Big Ben", "London Eye", "Tower Bridge", "Buckingham Palace"],
+                answer: "Big Ben"
+            },
+            {
+                question: "What color are London’s famous double-decker buses?",
+                options: ["Red", "Blue", "Green", "Yellow"],
+                answer: "Red"
+            }
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            document.getElementById("question").innerText = q.question;
+            const answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
+            q.options.forEach(option => {
+                const btn = document.createElement("button");
+                btn.classList.add("btn");
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(option);
+                answersDiv.appendChild(btn);
+            });
+            document.getElementById("result").innerText = "";
+        }
+
+        function checkAnswer(selected) {
+            const correct = quizData[currentQuestion].answer;
+            const resultDiv = document.getElementById("result");
+            if (selected === correct) {
+                resultDiv.innerText = "Correct! 🎉";
+            } else {
+                resultDiv.innerText = `Oops! The correct answer is "${correct}".`;
+            }
+            currentQuestion = (currentQuestion + 1) % quizData.length;
+            setTimeout(loadQuestion, 2000);
+        }
+
+        window.onload = loadQuestion;
+    </script>
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="london.html">
+            <button class="btn">⬅️ Back to London Page</button>
+        </a>
+    </div>
+    
+</body>
+</html>
